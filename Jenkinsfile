@@ -27,8 +27,9 @@ podTemplate(cloud: 'kubernetes', label: 'docker', yaml: template ) {
         stage ("Checkout SCM") {
                 git branch: 'main', url: 'https://github.com/iana-rodyakina/jenkins-february-2025.git'
             }
-        stage ("Docker Build") {
-            sh "doker build -t iana-rodyakina/myapache:1.0.0 ."
+        stage('Docker Build') {
+           sh "docker build -t iana-rodyakina/myapache:1.0.0 ."
+}
         }
         }
     }
