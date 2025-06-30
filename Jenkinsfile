@@ -33,5 +33,5 @@ podTemplate(cloud: 'kubernetes', label: 'docker', yaml: template ) {
         }
         }
     }
-}
+
 
