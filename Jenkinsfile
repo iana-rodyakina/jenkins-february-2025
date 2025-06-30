@@ -1,24 +1,23 @@
-template = '''
+def template = '''
 apiVersion: v1
 kind: Pod
 metadata:
   labels:
     run: docker
-  name: docker
 spec:
   volumes:
-  - name: docker
-    hostPass: 
+  - name: docker-sock
+    hostPath:
       path: /var/run/docker.sock
   containers:
-  -command:
-   -sleep
-   - "3600"
-   image: docker
-   name: docker
-   volumeMounts:
-   - mountPath: /var/run/docker.sock
-     name: docker
+  - name: docker
+    image: docker
+    command:
+    - sleep
+    - "3600"
+    volumeMounts:
+    - name: docker-sock
+      mountPath: /var/run/docker.sock
 '''
    
 
