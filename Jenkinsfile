@@ -1,4 +1,4 @@
-def template = '''
+template = '''
 apiVersion: v1
 kind: Pod
 metadata:
@@ -6,20 +6,31 @@ metadata:
     run: docker
   name: docker
 spec:
-  containers:
+  volumes:
   - name: docker
-    image: hashicorp/docker
-    command:
-    - sleep
-    - "3600"
+    hostPass: 
+      path: /var/run/docker.sock
+  containers:
+  -command:
+   -sleep
+   - "3600"
+   image: docker
+   name: docker
+   volumeMounts:
+   - mountPath: /var/run/docker.sock
+     name: docker
 '''
+   
 
 podTemplate(cloud: 'kubernetes', label: 'docker', yaml: template ) {
     node("docker") {
         container ("docker") {
-            stage ("Checkout SCM") {
+        stage ("Checkout SCM") {
                 git branch: 'main', url: 'https://github.com/iana-rodyakina/jenkins-february-2025.git'
             }
+        stage ("Docker Build") {
+            sh "doker build -t iana-rodyakina/myapache:1.0.0 ."
+        }
         }
     }
 }
